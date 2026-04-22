@@ -19,7 +19,13 @@ def filter_top_countries(df, top_countries):
 
 
 def plot_top10_evolution(df, top_countries):
-    plt.figure()
+    plt.figure(figsize=(10, 6))
+
+    # garantir ordenação
+    df = df.sort_values(by=["year"])
+
+    # anos únicos ordenados (CORREÇÃO PRINCIPAL)
+    years = sorted(df["year"].unique())
 
     for country in top_countries:
         df_country = df[df["country"] == country]
@@ -31,6 +37,9 @@ def plot_top10_evolution(df, top_countries):
             label=country
         )
 
+    # 👇 garante anos claros no eixo X
+    plt.xticks(years, rotation=45)
+
     plt.title("Evolução da felicidade - Top 10 países")
     plt.xlabel("Ano")
     plt.ylabel("Happiness Score")
@@ -39,7 +48,7 @@ def plot_top10_evolution(df, top_countries):
     plt.grid()
     plt.tight_layout()
 
-    # salva imagem (ótimo pro README)
+    # salvar imagem
     plt.savefig("top10_evolution.png")
 
     plt.show()
